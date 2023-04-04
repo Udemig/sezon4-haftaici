@@ -1,7 +1,5 @@
 export const SET_CATEGORIES = "set_categories"
 
-
-
 /**
  * Action objelerini oluşturmak için birden fazla yöntem kullanmak mümkün.
  * Bu yöntemlerin hepsi aynı seviyede iş görür. Hangisi sizin için daha kolay ise
@@ -17,7 +15,6 @@ export const setCategoryAction = (payload) => {
         payload
     }
 }
-
 
 const initailState = {
     categories: []

@@ -6,9 +6,14 @@ import MainPage from "./pages/main-page";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CategoryPage from "./pages/category-page";
 import CategoryDetailsPage from "./pages/category-details-page";
+import { useSelector } from "react-redux";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const categoryState = useSelector((state) => state.categoryState);
+
+  console.log(">> categoryState", categoryState);
+  // Çıktı:
+  // >> categoryState {categories: []}
 
   return (
     <BrowserRouter>
