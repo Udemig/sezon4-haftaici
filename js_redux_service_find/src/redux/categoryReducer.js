@@ -17,7 +17,8 @@ export const setCategoryAction = (payload) => {
 }
 
 const initailState = {
-    categories: []
+    categories: [],
+    initialized: false
 }
 
 export default function categoryReducer(state = initailState, action) {
@@ -34,11 +35,11 @@ export default function categoryReducer(state = initailState, action) {
      * >> Category Reducer function called {categories: Array(23)} {type: 'set_categories', payload: Array(23)}
      */
 
-
     switch (action.type) {
         case SET_CATEGORIES:
             return {
-                categories: action.payload
+                categories: action.payload,
+                initialized: true
             }
 
         default:

@@ -1,0 +1,9 @@
+== ÖDEV ==
+
+1- Login sayfasındaki API isteğinden dönen `token` bilgisini
+   token-context-provider.jsx dosyasındaki context'e set ediniz.
+
+2- Login sayfasındaki API isteğinden dönen `userData` bilgisini
+   redux'ta oluşturduğunuz reducer içerisine set ediniz.
+
+
