@@ -1,0 +1,4 @@
+
+1- Context kullanarak bir TODO sayfası yapın.
+2- Şu linkteki derste görmediğimiz fonksiyonları çalışın: https://www.w3schools.com/jsref/jsref_obj_array.asp
+
