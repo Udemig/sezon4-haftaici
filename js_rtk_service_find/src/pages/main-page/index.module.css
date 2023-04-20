@@ -1,0 +1,8 @@
+.button {
+  width: 64px;
+  height: 64px;
+}
+
+.button > img {
+  width: 100%;
+}
