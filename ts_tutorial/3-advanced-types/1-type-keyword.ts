@@ -122,3 +122,13 @@ let api_result: AppDataType = {
 };
 
 console.log(">> Api Result:", api_result);
+
+/**
+ * Mevcut type'ları farklı bir isimle kullanmak istiyorsak eski type'ı yeni type'a eşitleyerek bu işlemi yapabiliriz.
+ */
+type MyString = string;
+
+// örneğin iki farklı değişken ve iki farklı type belirtelim. Bu iki değişken birbirine atanabilir. Çünkü
+// temelde ikisi de aynı türdedir yani string'dir.
+const example_my_string: MyString = "example my str";
+const example_str: string = example_my_string;

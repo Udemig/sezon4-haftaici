@@ -10,6 +10,12 @@
  *
  */
 
+let is_attended: boolean | null | undefined;
+is_attended = true;
+is_attended = false;
+is_attended = null;
+is_attended = undefined;
+
 // Union type'ı değişkenden sonra belirtmek mümkündür.
 let parent_id: number | null = 15;
 console.log("parent id:", typeof parent_id, parent_id);
@@ -62,3 +68,12 @@ user_age = 3.141591;
 user_age = {
   foo: "test",
 };
+
+type WeekDayType = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+
+let week_day: WeekDayType;
+week_day = "mon";
+
+let today: WeekDayType;
+today = "mon";
+today = "tue";
