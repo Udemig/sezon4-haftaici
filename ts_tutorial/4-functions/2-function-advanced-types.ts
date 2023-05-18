@@ -124,7 +124,6 @@ console.log("example_minivan_price 1", example_minivan_price);
  */
 
 type VisitorType = {
-  // TODO Fill here
   id?: number;
   fullname?: number;
   registered_at?: string;
