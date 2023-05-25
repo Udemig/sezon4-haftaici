@@ -6,6 +6,8 @@ type TodoType = {
 };
 
 export default function TodoTypePage() {
+  // TODO Burası ödev.
+
   const [todos, setTodos] = useState<TodoType[]>();
 
   return (
