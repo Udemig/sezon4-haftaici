@@ -82,10 +82,16 @@ class Todo {
     this.start_date = start_date;
     return this;
   }
+
+  setIsDone(is_done: boolean): this {
+    this.is_done = is_done;
+    return this;
+  }
 }
 
 export default function TodoClassPage() {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [editTodo, setEditTodo] = useState<Todo | null>(null);
 
   const [todos, setTodos] = useState<Todo[]>([
     // setterlardan this döndüğü için method chain yaparak property'leri kolayca set edebiliyoruz.
@@ -106,9 +112,10 @@ export default function TodoClassPage() {
     .setStartDate(new Date())
     .setTitle("reactjs tekrar edilecek");
 
-  const onClickHandler = (
+  const onAddNewClickHandler = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    setEditTodo(null);
     setShowModal(true);
   };
 
@@ -132,11 +139,16 @@ export default function TodoClassPage() {
 
     console.log(">> TODO:", todo);
 
-    todos.push(todo);
-    console.log(">> TODOS", todos);
+    if (editTodo) {
+      editTodo.setTitle(todo.getTitle());
+      editTodo.setIsDone(todo.getIsDone());
+    } else {
+      todos.push(todo);
+      console.log(">> TODOS", todos);
+    }
 
-    setTodos(todos);
-    //setTodos([...todos]);
+    //setTodos(todos);
+    setTodos([...todos]);
     //setShowModal(false);
 
     let arr1 = [1, 2, 3];
@@ -145,8 +157,20 @@ export default function TodoClassPage() {
     let arr4 = arr2;
     let arr5 = arr1;
 
-    arr2.push(4);
+    arr5.push(4);
     console.log(arr1);
+
+    let arr_obj1 = [
+      { foo: "foo", bar: "bar" },
+      { foo: "foo", bar: "bar" },
+      { foo: "foo", bar: "bar" }, // bu satırdaki foo propertysine "test" değerini set edelim
+      { foo: "foo", bar: "bar" },
+    ];
+    let item = arr_obj1[2];
+    item.foo = "test";
+    console.log(">> arr_obj1: ", arr_obj1);
+
+    setShowModal(false);
   };
 
   return (
@@ -168,6 +192,7 @@ export default function TodoClassPage() {
                 name="title"
                 type="text"
                 placeholder="Write todo here..."
+                defaultValue={editTodo ? editTodo.getTitle() : ""}
               />
               <Form.Text className="text-muted">
                 Please add your todo item here.
@@ -180,6 +205,7 @@ export default function TodoClassPage() {
                 name="owner"
                 type="text"
                 placeholder="Write owner here..."
+                defaultValue={editTodo ? editTodo.getOwner() : ""}
               />
               <Form.Text className="text-muted">
                 Write owner name here.
@@ -192,19 +218,33 @@ export default function TodoClassPage() {
                 name="start_date"
                 type="text"
                 placeholder="Select a start date..."
+                defaultValue={
+                  editTodo ? editTodo.getStartDate().toISOString() : ""
+                }
               />
               <Form.Text className="text-muted">Select a start date.</Form.Text>
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Check name="is_done" type="checkbox" label="Is Done?" />
+              <Form.Check
+                defaultChecked={editTodo ? editTodo.getIsDone() : false}
+                name="is_done"
+                type="checkbox"
+                label="Is Done?"
+              />
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button type="button" variant="secondary" onClick={() => {}}>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                setShowModal(false);
+              }}
+            >
               Close
             </Button>
-            <Button type="submit" variant="primary" onClick={() => {}}>
+            <Button type="submit" variant="primary">
               Save Changes
             </Button>
           </Modal.Footer>
@@ -215,7 +255,7 @@ export default function TodoClassPage() {
 
       <hr />
 
-      <Button variant="success" className="mb-3" onClick={onClickHandler}>
+      <Button variant="success" className="mb-3" onClick={onAddNewClickHandler}>
         Add New Todo
       </Button>
 
@@ -230,7 +270,7 @@ export default function TodoClassPage() {
           </tr>
         </thead>
         <tbody>
-          {todos.map((item, index) => {
+          {todos.map((item: Todo, index: number) => {
             return (
               <tr key={item.getId()}>
                 <td>{item.getId()}</td>
@@ -240,9 +280,38 @@ export default function TodoClassPage() {
                   &nbsp;
                   {item.getStartDate().toLocaleTimeString()}
                 </td>
-                <td>{item.getIsDone() ? "Yapıldı" : "Beklemede"}</td>
                 <td>
-                  <Button variant="danger">Sil</Button>
+                  <input
+                    onChange={() => {
+                      todos[index].setIsDone(!todos[index].getIsDone());
+                      setTodos([...todos]);
+                    }}
+                    type="checkbox"
+                    checked={item.getIsDone()}
+                  />
+                  &nbsp;
+                  {item.getIsDone() ? "Yapıldı" : "Beklemede"}
+                </td>
+                <td>
+                  <Button
+                    variant="primary me-2"
+                    onClick={() => {
+                      setEditTodo(item);
+                      setShowModal(true);
+                    }}
+                  >
+                    Düzenle
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => {
+                      // index'ten itibaren bir adet satır siler
+                      todos.splice(index, 1);
+                      setTodos([...todos]);
+                    }}
+                  >
+                    Sil
+                  </Button>
                 </td>
               </tr>
             );
